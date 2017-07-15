@@ -1,0 +1,21 @@
+{
+  "server": {
+    "name": "sendler",
+    "address": "127.0.0.1",
+    "port": 3000
+  },
+  "tarantool": {
+    "user": "",
+    "password": ""
+  },
+  "consul": {
+    "address": "127.0.0.1",
+    "port": 8500
+  },
+  "email": {
+    "server": "",
+    "user": "",
+    "password": "",
+    "name" : ""
+  }
+}
