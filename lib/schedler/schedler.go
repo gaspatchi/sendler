@@ -5,18 +5,26 @@ import (
 	"fmt"
 	"os"
 
-	"gopkg.in/resty.v0"
-
 	"github.com/hashicorp/consul/api"
 	"github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
+	"gopkg.in/resty.v0"
 )
 
 var endpoint string
 
 func init() {
+	viper.SetConfigName("config")
+	viper.AddConfigPath(".")
+	err := viper.ReadInConfig()
+	if err != nil {
+		fmt.Print(err)
+	}
 	logrus.SetFormatter(&logrus.JSONFormatter{FieldMap: logrus.FieldMap{logrus.FieldKeyTime: "date", logrus.FieldKeyLevel: "type"}})
 	logrus.SetOutput(os.Stdout)
-	client, err := api.NewClient(api.DefaultConfig())
+	consulconfig := api.DefaultConfig()
+	consulconfig.Address = fmt.Sprintf("%s:%d", viper.GetString("consul.address"), viper.GetInt("consul.port"))
+	client, err := api.NewClient(consulconfig)
 	catalog := client.Catalog()
 	response, _, err := catalog.Service("schedler", "", &api.QueryOptions{Datacenter: "dc1"})
 	if err != nil {

@@ -30,7 +30,9 @@ func init() {
 		logrus.WithFields(logrus.Fields{"module": "Tarantool"}).Panic("Ошибка при чтении конфига")
 		panic(err)
 	}
-	client, err := api.NewClient(api.DefaultConfig())
+	consulconfig := api.DefaultConfig()
+	consulconfig.Address = fmt.Sprintf("%s:%d", viper.GetString("consul.address"), viper.GetInt("consul.port"))
+	client, err := api.NewClient(consulconfig)
 	catalog := client.Catalog()
 	response, _, err := catalog.Service("tarantool", "", &api.QueryOptions{Datacenter: "dc1"})
 	if err != nil {
