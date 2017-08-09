@@ -136,21 +136,21 @@ func init() {
 }
 
 func VerifyRegistration(connection *tarantool.Connection, taskdata SendTask) error {
-	var registerScheme VerifyRegistrationStruct
+	var registerScheme VerifyRegistrationStructа
 	registerScheme.Token = taskdata.Data.Token
 	email, _, err := taskdata.GetAddresses(connection)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "VerifyRegistration"}).Error("Ошибка при получении адресо  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "VerifyRegistration"}).Error("Ошибка при получении адреса  ", err)
 		return err
 	}
 	firstname, lastname, err := taskdata.GetInitials(connection)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "VerifyRegistration"}).Error("Ошибка при получении инициало  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "VerifyRegistration"}).Error("Ошибка при получении инициалов  ", err)
 		return err
 	}
 	model, err := GetTemplate(connection, "verifyRegistration")
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "VerifyRegistration"}).Error("Ошибка при получении шаблон  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "VerifyRegistration"}).Error("Ошибка при получении шаблона  ", err)
 		return err
 	}
 	registerScheme.Email = email
@@ -159,12 +159,12 @@ func VerifyRegistration(connection *tarantool.Connection, taskdata SendTask) err
 	emaiTemplate, _ := template.New("VerifyRegistration").Parse(model)
 	err = emaiTemplate.Execute(&registerScheme.Template, registerScheme)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "VerifyRegistration"}).Error("Ошибка при формировании письм  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "VerifyRegistration"}).Error("Ошибка при формировании письма  ", err)
 		return err
 	}
 	err = SendMail("👤 Активация аккаунта", registerScheme.Email, fmt.Sprintf("%s %s", registerScheme.Firstname, registerScheme.Lastname), registerScheme.Template.String())
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "VerifyRegistration"}).Error("Ошибка при отправке письм  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "VerifyRegistration"}).Error("Ошибка при отправке письма  ", err)
 		return err
 	}
 	return nil
@@ -176,31 +176,31 @@ func ResetPassword(connection *tarantool.Connection, taskdata SendTask) error {
 	resetScheme.Password = taskdata.Data.Password
 	email, _, err := taskdata.GetAddresses(connection)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "ResetPassword"}).Error("Ошибка при получении адресо  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "ResetPassword"}).Error("Ошибка при получении адреса  ", err)
 		return err
 	}
 	resetScheme.Email = email
 	firstname, lastname, err := taskdata.GetInitials(connection)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "ResetPassword"}).Error("Ошибка при получении инициало  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "ResetPassword"}).Error("Ошибка при получении инициалов  ", err)
 		return err
 	}
 	resetScheme.Firstname = firstname
 	resetScheme.Lastname = lastname
 	model, err := GetTemplate(connection, "resetPassword")
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "ResetPassword"}).Error("Ошибка при получении шаблон  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "ResetPassword"}).Error("Ошибка при получении шаблона  ", err)
 		return err
 	}
 	emaiTemplate, _ := template.New("resetPassword").Parse(model)
 	err = emaiTemplate.Execute(&resetScheme.Template, resetScheme)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "ResetPassword"}).Error("Ошибка при формировании письм  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "ResetPassword"}).Error("Ошибка при формировании письма  ", err)
 		return err
 	}
 	err = SendMail("🔑 Востановление пароля", resetScheme.Email, fmt.Sprintf("%s %s", resetScheme.Firstname, resetScheme.Lastname), resetScheme.Template.String())
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "ResetPassword"}).Error("Ошибка при отправке письм  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "ResetPassword"}).Error("Ошибка при отправке письма  ", err)
 		return err
 	}
 	return nil
@@ -210,31 +210,31 @@ func SetNumber(connection *tarantool.Connection, taskdata SendTask) error {
 	var setNumberScheme SetNumberStruct
 	email, _, err := taskdata.GetAddresses(connection)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SetNumber"}).Error("Ошибка при получении адресо  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SetNumber"}).Error("Ошибка при получении адреса  ", err)
 		return err
 	}
 	setNumberScheme.Email = email
 	firstname, lastname, err := taskdata.GetInitials(connection)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SetNumber"}).Error("Ошибка при получении инициало  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SetNumber"}).Error("Ошибка при получении инициалов  ", err)
 		return err
 	}
 	setNumberScheme.Firstname = firstname
 	setNumberScheme.Lastname = lastname
 	model, err := GetTemplate(connection, "setNumber")
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SetNumber"}).Error("Ошибка при получении шаблон  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SetNumber"}).Error("Ошибка при получении шаблона  ", err)
 		return err
 	}
 	emaiTemplate, _ := template.New("setNumber").Parse(model)
 	err = emaiTemplate.Execute(&setNumberScheme.Template, setNumberScheme)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SetNumber"}).Error("Ошибка при формировании письм  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SetNumber"}).Error("Ошибка при формировании письма  ", err)
 		return err
 	}
 	err = SendMail("📵 Укажите номер", setNumberScheme.Email, fmt.Sprintf("%s %s", setNumberScheme.Firstname, setNumberScheme.Lastname), setNumberScheme.Template.String())
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SetNumber"}).Error("Ошибка при отправке письм  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SetNumber"}).Error("Ошибка при отправке письма  ", err)
 		return err
 	}
 	return nil
@@ -244,31 +244,31 @@ func AddMoney(connection *tarantool.Connection, taskdata SendTask) error {
 	var addMoneyScheme AddMoneyStruct
 	email, _, err := taskdata.GetAddresses(connection)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "AddMoney"}).Error("Ошибка при получении адресо  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "AddMoney"}).Error("Ошибка при получении адреса  ", err)
 		return err
 	}
 	addMoneyScheme.Email = email
 	firstname, lastname, err := taskdata.GetInitials(connection)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "AddMoney"}).Error("Ошибка при получении инициало  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "AddMoney"}).Error("Ошибка при получении инициалов  ", err)
 		return err
 	}
 	addMoneyScheme.Firstname = firstname
 	addMoneyScheme.Lastname = lastname
 	model, err := GetTemplate(connection, "addMoney")
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "AddMoney"}).Error("Ошибка при получении шаблон  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "AddMoney"}).Error("Ошибка при получении шаблона  ", err)
 		return err
 	}
 	emaiTemplate, _ := template.New("addMoney").Parse(model)
 	err = emaiTemplate.Execute(&addMoneyScheme.Template, addMoneyScheme)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "AddMoney"}).Error("Ошибка при формировании письм  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "AddMoney"}).Error("Ошибка при формировании письма  ", err)
 		return err
 	}
 	err = SendMail("💰 Пополните счет", addMoneyScheme.Email, fmt.Sprintf("%s %s", addMoneyScheme.Firstname, addMoneyScheme.Lastname), addMoneyScheme.Template.String())
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "AddMoney"}).Error("Ошибка при отправке письм  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "AddMoney"}).Error("Ошибка при отправке письма  ", err)
 		return err
 	}
 	return nil
@@ -284,18 +284,18 @@ func SendClaim(connection *tarantool.Connection, taskdata SendTask) error {
 	sendClaimScheme.Text = taskdata.Data.Text
 	model, err := GetTemplate(connection, "sendClaim")
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendClaim"}).Error("Ошибка при получении шаблон  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendClaim"}).Error("Ошибка при получении шаблона  ", err)
 		return err
 	}
 	emaiTemplate, _ := template.New("sendClaim").Parse(model)
 	err = emaiTemplate.Execute(&sendClaimScheme.Template, sendClaimScheme)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendClaim"}).Error("Ошибка при формировании письм  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendClaim"}).Error("Ошибка при формировании письма  ", err)
 		return err
 	}
 	err = SendMail(sendClaimScheme.Type, taskdata.Data.Address, fmt.Sprintf("%s %s", sendClaimScheme.Firstname, sendClaimScheme.Lastname), sendClaimScheme.Template.String())
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendClaim"}).Error("Ошибка при отправке письм  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendClaim"}).Error("Ошибка при отправке письма  ", err)
 		return err
 	}
 	return nil
@@ -305,13 +305,13 @@ func SendMessage(connection *tarantool.Connection, taskdata SendTask) error {
 	var sendMessageScheme SendMessageStruct
 	email, _, err := taskdata.GetAddresses(connection)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendMessage"}).Error("Ошибка при получении адресо  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendMessage"}).Error("Ошибка при получении адреса  ", err)
 		return err
 	}
 	sendMessageScheme.Email = email
 	firstname, lastname, err := taskdata.GetInitials(connection)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendMessage"}).Error("Ошибка при получении инициало  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendMessage"}).Error("Ошибка при получении инициалов  ", err)
 		return err
 	}
 	sendMessageScheme.Firstname = firstname
@@ -319,18 +319,18 @@ func SendMessage(connection *tarantool.Connection, taskdata SendTask) error {
 	sendMessageScheme.Text = taskdata.Data.Text
 	model, err := GetTemplate(connection, "sendMessage")
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendMessage"}).Error("Ошибка при получении шаблон  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendMessage"}).Error("Ошибка при получении шаблона  ", err)
 		return err
 	}
 	emaiTemplate, _ := template.New("sendMessage").Parse(model)
 	err = emaiTemplate.Execute(&sendMessageScheme.Template, sendMessageScheme)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendMessage"}).Error("Ошибка при формировании письм  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendMessage"}).Error("Ошибка при формировании письма  ", err)
 		return err
 	}
 	err = SendMail("⚠️ Информация", sendMessageScheme.Email, fmt.Sprintf("%s %s", sendMessageScheme.Firstname, sendMessageScheme.Lastname), sendMessageScheme.Template.String())
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendMessage"}).Error("Ошибка при отправке письм  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendMessage"}).Error("Ошибка при отправке письма  ", err)
 		return err
 	}
 	return nil
@@ -348,13 +348,13 @@ func SendNewSchedule(connection *tarantool.Connection, taskdata SendTask) error 
 	json.Unmarshal([]byte(schedule), &sendScheduleScheme)
 	email, _, err := taskdata.GetAddresses(connection)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendNewSchedule"}).Error("Ошибка при получении адресо  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendNewSchedule"}).Error("Ошибка при получении адреса  ", err)
 		return err
 	}
 	sendScheduleScheme.Email = email
 	firstname, lastname, err := taskdata.GetInitials(connection)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendNewSchedule"}).Error("Ошибка при получении инициало  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendNewSchedule"}).Error("Ошибка при получении инициалов  ", err)
 		return err
 	}
 	sendScheduleScheme.Email = email
@@ -362,18 +362,18 @@ func SendNewSchedule(connection *tarantool.Connection, taskdata SendTask) error 
 	sendScheduleScheme.Lastname = lastname
 	model, err := GetTemplate(connection, taskdata.Template)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendNewSchedule"}).Error("Ошибка при получении шаблон  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendNewSchedule"}).Error("Ошибка при получении шаблона  ", err)
 		return err
 	}
 	emaiTemplate, _ := template.New(taskdata.Template).Parse(model)
 	err = emaiTemplate.Execute(&sendScheduleScheme.Template, sendScheduleScheme)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendNewSchedule"}).Error("Ошибка при формировании письм  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendNewSchedule"}).Error("Ошибка при формировании письма  ", err)
 		return err
 	}
 	err = SendMail(fmt.Sprintf("📅 Расписание занятий на %s", sendScheduleScheme.Date), sendScheduleScheme.Email, fmt.Sprintf("%s %s", sendScheduleScheme.Firstname, sendScheduleScheme.Lastname), sendScheduleScheme.Template.String())
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendNewSchedule"}).Error("Ошибка при отправке письм  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendNewSchedule"}).Error("Ошибка при отправке письма  ", err)
 		return err
 	}
 	return nil
@@ -391,13 +391,13 @@ func SendUpdateSchedule(connection *tarantool.Connection, taskdata SendTask) err
 	json.Unmarshal([]byte(schedule), &sendScheduleScheme)
 	email, _, err := taskdata.GetAddresses(connection)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendUpdateSchedule"}).Error("Ошибка при получении адресо  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendUpdateSchedule"}).Error("Ошибка при получении адреса  ", err)
 		return err
 	}
 	sendScheduleScheme.Email = email
 	firstname, lastname, err := taskdata.GetInitials(connection)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendUpdateSchedule"}).Error("Ошибка при получении инициало  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendUpdateSchedule"}).Error("Ошибка при получении инициалов  ", err)
 		return err
 	}
 	sendScheduleScheme.Email = email
@@ -405,19 +405,19 @@ func SendUpdateSchedule(connection *tarantool.Connection, taskdata SendTask) err
 	sendScheduleScheme.Lastname = lastname
 	model, err := GetTemplate(connection, taskdata.Template)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendUpdateSchedule"}).Error("Ошибка при получении шаблон  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendUpdateSchedule"}).Error("Ошибка при получении шаблона  ", err)
 		return err
 	}
 	emaiTemplate, _ := template.New(taskdata.Template).Parse(model)
 	err = emaiTemplate.Execute(&sendScheduleScheme.Template, sendScheduleScheme)
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendUpdateSchedule"}).Error("Ошибка при формировании письм  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendUpdateSchedule"}).Error("Ошибка при формировании письма  ", err)
 		return err
 	}
 	err = SendMail(fmt.Sprintf("🔃 Обновленное расписание занятий на %s", sendScheduleScheme.Date), sendScheduleScheme.Email, fmt.Sprintf("%s %s", sendScheduleScheme.Firstname, sendScheduleScheme.Lastname), sendScheduleScheme.Template.String())
 	if err != nil {
-		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendUpdateSchedule"}).Error("Ошибка при отправке письм  ", err)
+		logrus.WithFields(logrus.Fields{"module": "Send", "section": "SendUpdateSchedule"}).Error("Ошибка при отправке письма  ", err)
 		return err
 	}
-	return nil
+	return niа
 }

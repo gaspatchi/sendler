@@ -5,9 +5,9 @@ import (
 )
 
 var CountSends = prometheus.NewCounterVec(prometheus.CounterOpts{Name: "sendler_send_mails", Help: "Количество отправленных писем"}, []string{"template"})
-var CountFetchs = prometheus.NewCounter(prometheus.CounterOpts{Name: "sender_count_fetch", Help: "Количество полученых расписаний"})
-var CountRelease = prometheus.NewCounterVec(prometheus.CounterOpts{Name: "sendler_tasks_release", Help: "Количество возвращенных задач"}, []string{"queue"})
-var CountDeletes = prometheus.NewCounterVec(prometheus.CounterOpts{Name: "sendler_tasks_deletes", Help: "Количество удаленных задач"}, []string{"queue"})
+var CountFetchs = prometheus.NewCounter(prometheus.CounterOpts{Name: "sender_count_fetch", Help: "Количество полученных расписаний"})
+var CountRelease = prometheus.NewCounterVec(prometheus.CounterOpts{Name: "sendler_tasks_release", Help: "Количество возвращённых задач"}, []string{"queue"})
+var CountDeletes = prometheus.NewCounterVec(prometheus.CounterOpts{Name: "sendler_tasks_deletes", Help: "Количество удалённых задач"}, []string{"queue"})
 
 func init() {
 	CountSends.WithLabelValues("").Add(0)

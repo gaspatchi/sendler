@@ -98,7 +98,7 @@ func Listen(sendQueue queue.Queue, connection *tarantool.Connection) {
 			case "updateSchedule":
 				err = SendUpdateSchedule(connection, taskdata)
 				if err != nil {
-					logrus.WithFields(logrus.Fields{"module": "Send"}).Error("Ошибка при отправке письма с обновленным расписанием  ", err)
+					logrus.WithFields(logrus.Fields{"module": "Send"}).Error("Ошибка при отправке письма с обновлённым расписанием  ", err)
 					err = releaseTask(sendQueue, task, taskdata)
 					if err != nil {
 						logrus.WithFields(logrus.Fields{"module": "Send"}).Error("Невозможно вернуть задачу в очередь  ", err)
@@ -134,7 +134,7 @@ func Listen(sendQueue queue.Queue, connection *tarantool.Connection) {
 			case "addMoney":
 				err = AddMoney(connection, taskdata)
 				if err != nil {
-					logrus.WithFields(logrus.Fields{"module": "Send"}).Error("Ошибка при отправке письма с просьбой пополнить счет  ", err)
+					logrus.WithFields(logrus.Fields{"module": "Send"}).Error("Ошибка при отправке письма с просьбой пополнить счёт  ", err)
 					err = releaseTask(sendQueue, task, taskdata)
 					if err != nil {
 						logrus.WithFields(logrus.Fields{"module": "Send"}).Error("Невозможно вернуть задачу в очередь  ", err)
