@@ -19,10 +19,12 @@ func init() {
 func Listen(sendQueue queue.Queue, connection *tarantool.Connection) {
 	for {
 		var taskdata SendTask
-		task, err := sendQueue.Take()
-
+		task, err := sendQueue.TakeTimeout(time.Second * 5)
 		if err != nil {
 			logrus.WithFields(logrus.Fields{"module": "Send"}).Error("Ошибка при получении задачи произошла ошибка  ", err)
+			continue
+		}
+		if task == nil {
 			continue
 		}
 		err = taskdata.Unmarshal([]byte(task.Data().(string)), &taskdata)

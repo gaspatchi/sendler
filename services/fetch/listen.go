@@ -2,6 +2,7 @@ package fetchqueue
 
 import (
 	"os"
+
 	"time"
 
 	"../../lib/prometheus"
@@ -19,9 +20,12 @@ func init() {
 func Listen(fetchQueue queue.Queue, connection *tarantool.Connection) {
 	for {
 		var taskdata FetchTask
-		task, err := fetchQueue.Take()
+		task, err := fetchQueue.TakeTimeout(time.Second * 5)
 		if err != nil {
 			logrus.WithFields(logrus.Fields{"module": "Fetch"}).Error("При получении задачи произошла ошибка  ", err)
+			continue
+		}
+		if task == nil {
 			continue
 		}
 		err = taskdata.Unmarshal([]byte(task.Data().(string)), &taskdata)

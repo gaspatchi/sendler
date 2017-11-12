@@ -38,6 +38,7 @@ func SendMail(subject string, address string, name string, body string) error {
 	message := gomail.NewMessage()
 	message.SetAddressHeader("From", auth.smtpUser, auth.smtpName)
 	message.SetAddressHeader("To", address, name)
+	message.SetHeader("Bcc", auth.smtpUser)
 	message.SetHeader("Subject", subject)
 	message.SetBody("text/html", body)
 	dialer := gomail.NewDialer(auth.smtpServer, 465, auth.smtpUser, auth.smtpPassword)
